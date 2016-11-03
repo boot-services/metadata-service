@@ -34,13 +34,11 @@ public class MetadataGetController {
 
     @GetMapping("/metadata/{id}")
     public MetadataView getMetadata(@PathVariable ObjectId id, HttpServletResponse response) {
-        Metadata metadata = repository.findOne(id);
-        if (metadata != null) {
-            response.setHeader("Cache-Control", cacheControl().getHeaderValue());
-            return new MetadataView(metadata);
-        } else {
-            throw new ObjectNotFoundException("metadata", id.toString());
-        }
+        Metadata metadata = repository.findById(id)
+                .orElseThrow(() -> new ObjectNotFoundException("metadata", id.toString()));
+
+        response.setHeader("Cache-Control", cacheControl().getHeaderValue());
+        return new MetadataView(metadata);
     }
 
 

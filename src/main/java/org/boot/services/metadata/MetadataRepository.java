@@ -10,6 +10,8 @@ import java.util.stream.Stream;
 @Repository
 public interface MetadataRepository extends MongoRepository<Metadata, ObjectId> {
 
+    Optional<Metadata> findById(ObjectId id);
+
     Optional<Metadata> findByGroupAndName(String group, String name);
 
     Stream<Metadata> findByGroup(String group);
