@@ -4,9 +4,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
+import org.springframework.restdocs.operation.preprocess.ContentModifyingOperationPreprocessor;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -16,12 +19,15 @@ import java.util.Arrays;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.core.IsEqual.equalTo;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
 @ActiveProfiles("test")
 @SpringBootTest
+@AutoConfigureRestDocs(outputDir = "target/generated-snippets", uriScheme = "https", uriHost = "metadata.example.com")
 @AutoConfigureMockMvc
 public class MetadataGetControllerTest {
 
@@ -34,6 +40,13 @@ public class MetadataGetControllerTest {
     @Before
     public void setup(){
         repository.deleteAll();
+    }
+
+    private RestDocumentationResultHandler restDoc(String name) {
+        ContentModifyingOperationPreprocessor jsonSource = new ContentModifyingOperationPreprocessor(new JsonSyntaxHighlighter());
+        return document(name,
+                preprocessRequest(removeHeaders("Host"),prettyPrint()),
+                preprocessResponse(removeHeaders("X-Application-Context","Content-Length"),prettyPrint(),jsonSource));
     }
 
     @Test
@@ -50,7 +63,8 @@ public class MetadataGetControllerTest {
                 .andExpect(jsonPath("$.group",equalTo("mygroup")))
                 .andExpect(jsonPath("$.name",equalTo("myconfig")))
                 .andExpect(jsonPath("$.value.key1",equalTo("value1")))
-                .andExpect(jsonPath("$.value.key2",equalTo(Arrays.asList("One","Two","Three"))));
+                .andExpect(jsonPath("$.value.key2",equalTo(Arrays.asList("One","Two","Three"))))
+                .andDo(restDoc("getMetadataByGroup"));
 
     }
 
@@ -68,7 +82,8 @@ public class MetadataGetControllerTest {
                 .andExpect(jsonPath("$.group",equalTo("mygroup")))
                 .andExpect(jsonPath("$.name",equalTo("myconfig")))
                 .andExpect(jsonPath("$.value.key1",equalTo("value1")))
-                .andExpect(jsonPath("$.value.key2",equalTo(Arrays.asList("One","Two","Three"))));
+                .andExpect(jsonPath("$.value.key2",equalTo(Arrays.asList("One","Two","Three"))))
+                .andDo(restDoc("getMetadataById"));;
 
     }
 
@@ -78,7 +93,8 @@ public class MetadataGetControllerTest {
 
         result.andExpect(status().isNotFound())
                 .andExpect(header().doesNotExist("Cache-Control"))
-                .andExpect(jsonPath("$.message",equalTo("Requested metadata entity having id mygroup:myconfig does not exists in the system.")));
+                .andExpect(jsonPath("$.message",equalTo("Requested metadata entity having id mygroup:myconfig does not exists in the system.")))
+                .andDo(restDoc("getMetadataByGroup404"));;
 
     }
 
@@ -88,7 +104,8 @@ public class MetadataGetControllerTest {
 
         result.andExpect(status().isNotFound())
                 .andExpect(header().doesNotExist("Cache-Control"))
-                .andExpect(jsonPath("$.message",equalTo("Requested metadata entity having id 507f1f77bcf86cd799439011 does not exists in the system.")));
+                .andExpect(jsonPath("$.message",equalTo("Requested metadata entity having id 507f1f77bcf86cd799439011 does not exists in the system.")))
+                .andDo(restDoc("getMetadataById404"));;
 
     }
 
@@ -107,7 +124,8 @@ public class MetadataGetControllerTest {
                 .andExpect(jsonPath("$[0].value.key2",equalTo(Arrays.asList("One","Two","Three"))))
                 .andExpect(jsonPath("$[1].group",equalTo("mygroup")))
                 .andExpect(jsonPath("$[1].name",equalTo("myconfig2")))
-                .andExpect(jsonPath("$[1].value.key3",equalTo("value3")));
+                .andExpect(jsonPath("$[1].value.key3",equalTo("value3")))
+                .andDo(restDoc("getAllMetadataForGroup"));;
 
     }
 
@@ -118,7 +136,8 @@ public class MetadataGetControllerTest {
 
         result.andExpect(status().isOk())
                 .andExpect(header().string("Cache-Control","max-age=3600, public"))
-                .andExpect(jsonPath("$",hasSize(0)));
+                .andExpect(jsonPath("$",hasSize(0)))
+                .andDo(restDoc("getAllMetadataForGroupEmpty"));;
 
     }
 

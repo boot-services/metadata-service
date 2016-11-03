@@ -1,0 +1,77 @@
+
+= Metadata Service API Guide
+Metadata service also known as config service. It hold the metadata/config required across different services.;
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+
+[[resources-get-metadata]]
+== Getting A Metadata
+
+
+=== By Group and Name
+
+A `GET` request used to get metadata/config by group and  name.
+
+==== Example request
+
+include::{snippets}/getMetadataByGroup/http-request.adoc[]
+
+include::{snippets}/getMetadataByGroup/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/getMetadataByGroup/http-response.adoc[]
+
+==== Example response (404)
+
+include::{snippets}/getMetadataByGroup404/http-response.adoc[]
+
+
+
+=== By Id
+
+A `GET` request used to get metadata/config by Id.
+
+==== Example request
+
+include::{snippets}/getMetadataById/http-request.adoc[]
+
+include::{snippets}/getMetadataById/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/getMetadataById/http-response.adoc[]
+
+==== Example response (404)
+
+include::{snippets}/getMetadataById404/http-response.adoc[]
+
+
+
+
+[[resources-get-all-metadata]]
+== Getting List of Metadata
+
+=== By Group
+
+A `GET` request used to get all metadata/config for requested group.
+
+==== Example request
+
+include::{snippets}/getAllMetadataForGroup/http-request.adoc[]
+
+include::{snippets}/getAllMetadataForGroup/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/getAllMetadataForGroup/http-response.adoc[]
+
+==== Example response when No Record Found (Empty)
+
+include::{snippets}/getAllMetadataForGroupEmpty/http-response.adoc[]
+
+
