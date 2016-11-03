@@ -19,7 +19,7 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 @SpringBootTest
 @AutoConfigureRestDocs(outputDir = "target/generated-snippets")
 @AutoConfigureMockMvc
-public class BaseControllerTest {
+public abstract class BaseControllerTest {
 
     @Autowired
     protected MockMvc mvc;
