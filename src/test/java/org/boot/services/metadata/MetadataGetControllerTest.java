@@ -45,7 +45,7 @@ public class MetadataGetControllerTest {
         ResultActions result = mvc.perform(get("/metadata/mygroup/myconfig" ).accept(MediaType.APPLICATION_JSON));
 
         result.andExpect(status().isOk())
-                .andExpect(header().string("Cache-Control","max-age=600, public"))
+                .andExpect(header().string("Cache-Control","max-age=3600, public"))
                 .andExpect(jsonPath("$.id",equalTo(metadata.getId().toString())))
                 .andExpect(jsonPath("$.group",equalTo("mygroup")))
                 .andExpect(jsonPath("$.name",equalTo("myconfig")))
@@ -63,7 +63,7 @@ public class MetadataGetControllerTest {
         ResultActions result = mvc.perform(get("/metadata/" + metadata.getId() ).accept(MediaType.APPLICATION_JSON));
 
         result.andExpect(status().isOk())
-                .andExpect(header().string("Cache-Control","max-age=600, public"))
+                .andExpect(header().string("Cache-Control","max-age=3600, public"))
                 .andExpect(jsonPath("$.id",equalTo(metadata.getId().toString())))
                 .andExpect(jsonPath("$.group",equalTo("mygroup")))
                 .andExpect(jsonPath("$.name",equalTo("myconfig")))
@@ -100,7 +100,7 @@ public class MetadataGetControllerTest {
         ResultActions result = mvc.perform(get("/metadata/groups/mygroup" ).accept(MediaType.APPLICATION_JSON));
 
         result.andExpect(status().isOk())
-                .andExpect(header().string("Cache-Control","max-age=600, public"))
+                .andExpect(header().string("Cache-Control","max-age=3600, public"))
                 .andExpect(jsonPath("$[0].group",equalTo("mygroup")))
                 .andExpect(jsonPath("$[0].name",equalTo("myconfig")))
                 .andExpect(jsonPath("$[0].value.key1",equalTo("value1")))
@@ -117,7 +117,7 @@ public class MetadataGetControllerTest {
         ResultActions result = mvc.perform(get("/metadata/groups/mygroup" ).accept(MediaType.APPLICATION_JSON));
 
         result.andExpect(status().isOk())
-                .andExpect(header().string("Cache-Control","max-age=600, public"))
+                .andExpect(header().string("Cache-Control","max-age=3600, public"))
                 .andExpect(jsonPath("$",hasSize(0)));
 
     }
