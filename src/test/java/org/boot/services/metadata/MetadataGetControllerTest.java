@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @ActiveProfiles("test")
 @SpringBootTest
-@AutoConfigureRestDocs(outputDir = "target/generated-snippets", uriScheme = "https", uriHost = "metadata.example.com")
+@AutoConfigureRestDocs(outputDir = "target/generated-snippets")
 @AutoConfigureMockMvc
 public class MetadataGetControllerTest {
 
