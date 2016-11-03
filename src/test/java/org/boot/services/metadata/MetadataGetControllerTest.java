@@ -14,10 +14,10 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.Arrays;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
 @ActiveProfiles("test")
@@ -45,6 +45,7 @@ public class MetadataGetControllerTest {
         ResultActions result = mvc.perform(get("/metadata/mygroup/myconfig" ).accept(MediaType.APPLICATION_JSON));
 
         result.andExpect(status().isOk())
+                .andExpect(header().string("Cache-Control","max-age=600, public"))
                 .andExpect(jsonPath("$.id",equalTo(metadata.getId().toString())))
                 .andExpect(jsonPath("$.group",equalTo("mygroup")))
                 .andExpect(jsonPath("$.name",equalTo("myconfig")))
@@ -62,6 +63,7 @@ public class MetadataGetControllerTest {
         ResultActions result = mvc.perform(get("/metadata/" + metadata.getId() ).accept(MediaType.APPLICATION_JSON));
 
         result.andExpect(status().isOk())
+                .andExpect(header().string("Cache-Control","max-age=600, public"))
                 .andExpect(jsonPath("$.id",equalTo(metadata.getId().toString())))
                 .andExpect(jsonPath("$.group",equalTo("mygroup")))
                 .andExpect(jsonPath("$.name",equalTo("myconfig")))
@@ -75,7 +77,18 @@ public class MetadataGetControllerTest {
         ResultActions result = mvc.perform(get("/metadata/mygroup/myconfig" ).accept(MediaType.APPLICATION_JSON));
 
         result.andExpect(status().isNotFound())
+                .andExpect(header().doesNotExist("Cache-Control"))
                 .andExpect(jsonPath("$.message",equalTo("Requested metadata entity having id mygroup:myconfig does not exists in the system.")));
+
+    }
+
+    @Test
+    public void shouldReturn404WhenRequestedConfigForIdDoesNotExists() throws Exception {
+        ResultActions result = mvc.perform(get("/metadata/507f1f77bcf86cd799439011" ).accept(MediaType.APPLICATION_JSON));
+
+        result.andExpect(status().isNotFound())
+                .andExpect(header().doesNotExist("Cache-Control"))
+                .andExpect(jsonPath("$.message",equalTo("Requested metadata entity having id 507f1f77bcf86cd799439011 does not exists in the system.")));
 
     }
 
@@ -87,6 +100,7 @@ public class MetadataGetControllerTest {
         ResultActions result = mvc.perform(get("/metadata/groups/mygroup" ).accept(MediaType.APPLICATION_JSON));
 
         result.andExpect(status().isOk())
+                .andExpect(header().string("Cache-Control","max-age=600, public"))
                 .andExpect(jsonPath("$[0].group",equalTo("mygroup")))
                 .andExpect(jsonPath("$[0].name",equalTo("myconfig")))
                 .andExpect(jsonPath("$[0].value.key1",equalTo("value1")))
@@ -94,6 +108,17 @@ public class MetadataGetControllerTest {
                 .andExpect(jsonPath("$[1].group",equalTo("mygroup")))
                 .andExpect(jsonPath("$[1].name",equalTo("myconfig2")))
                 .andExpect(jsonPath("$[1].value.key3",equalTo("value3")));
+
+    }
+
+    @Test
+    public void shouldReturnEmptyListForAGroupThatDoesNotExists() throws Exception {
+
+        ResultActions result = mvc.perform(get("/metadata/groups/mygroup" ).accept(MediaType.APPLICATION_JSON));
+
+        result.andExpect(status().isOk())
+                .andExpect(header().string("Cache-Control","max-age=600, public"))
+                .andExpect(jsonPath("$",hasSize(0)));
 
     }
 
