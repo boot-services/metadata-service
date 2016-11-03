@@ -1,4 +1,4 @@
-package org.springboot.services;
+package org.boot.services.metadata;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
