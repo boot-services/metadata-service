@@ -27,7 +27,7 @@ public abstract class BaseControllerTest {
     protected RestDocumentationResultHandler restDoc(String name) {
         ContentModifyingOperationPreprocessor jsonSource = new ContentModifyingOperationPreprocessor(new JsonSyntaxHighlighter());
         return document(name,
-                preprocessRequest(removeHeaders("Host"),prettyPrint()),
+                preprocessRequest(removeHeaders("Host","Content-Length"),prettyPrint()),
                 preprocessResponse(removeHeaders("X-Application-Context","Content-Length"),prettyPrint(),jsonSource));
     }
 

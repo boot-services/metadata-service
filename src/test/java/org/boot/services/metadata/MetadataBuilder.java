@@ -1,5 +1,7 @@
 package org.boot.services.metadata;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.bson.types.ObjectId;
 
 import java.util.HashMap;
@@ -7,10 +9,15 @@ import java.util.Map;
 
 public class MetadataBuilder {
 
-    private ObjectId id;
-    private String group = "uno";
+    private String id;
+    private String group;
     private String name;
-    private Object value = new HashMap<>();
+    private Object value;
+
+    public MetadataBuilder id(String id) {
+        this.id = id;
+        return this;
+    }
 
     public MetadataBuilder group(String group){
         this.group = group;
@@ -36,6 +43,18 @@ public class MetadataBuilder {
     }
 
     public Metadata build(){
-        return new Metadata(group, name, value);
+        return new Metadata(id, group, name, value);
     }
+
+    public String buildAsJson() throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String,Object> obj = new HashMap<String,Object>(){{
+            if (id != null) put("id",id);
+            if (group != null) put("group",group);
+            if (name != null) put("name",name);
+            if (value != null) put("value",value);
+        }};
+        return mapper.writeValueAsString(obj);
+    }
+
 }

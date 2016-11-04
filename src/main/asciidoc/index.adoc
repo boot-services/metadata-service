@@ -75,3 +75,41 @@ include::{snippets}/getAllMetadataForGroup/http-response.adoc[]
 include::{snippets}/getAllMetadataForGroupEmpty/http-response.adoc[]
 
 
+[[resources-save-metadata]]
+== Save Metadata
+
+=== Insert NEW Metadata
+
+A `POST` request used to insert NEW metadata/config for a group.
+
+==== Example request
+
+include::{snippets}/insertMetadata/http-request.adoc[]
+
+include::{snippets}/insertMetadata/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/insertMetadata/http-response.adoc[]
+
+==== Example response (Validation Errors)
+
+include::{snippets}/saveMetadataWithoutGroup/http-response.adoc[]
+
+include::{snippets}/saveMetadataWithoutName/http-response.adoc[]
+
+include::{snippets}/saveMetadataWithoutValue/http-response.adoc[]
+
+=== Update Existing Metadata
+
+A `POST` request used to update existing metadata/config for a group.
+
+==== Example request
+
+include::{snippets}/updateMetadata/http-request.adoc[]
+
+include::{snippets}/updateMetadata/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/updateMetadata/http-response.adoc[]
