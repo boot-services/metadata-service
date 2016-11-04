@@ -1,1 +1,1 @@
-web: java -jar target/*.jar --server.port=$PORT --spring.data.mongodb.uri=$MONGOLAB_URI
+web: java -jar target/metadata-service.jar --server.port=$PORT --spring.data.mongodb.uri=$MONGOLAB_URI
