@@ -1,7 +1,5 @@
 package org.boot.services.metadata;
 
-import java.util.Map;
-
 public class MetadataView {
     private Metadata metadata;
 
@@ -21,7 +19,7 @@ public class MetadataView {
         return metadata.getName();
     }
 
-    public Map<String, Object> getValue() {
+    public Object getValue() {
         return metadata.getValue();
     }
 

@@ -6,8 +6,6 @@ import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Map;
-
 @Document
 @CompoundIndexes({
         @CompoundIndex(name = "group_name", def = "{'group': 1, 'name': 1}")
@@ -19,9 +17,9 @@ public class Metadata {
 
     private String group;
     private String name;
-    private Map<String,Object> value;
+    private Object value;
 
-    public Metadata(String group, String name, Map<String, Object> value) {
+    public Metadata(String group, String name, Object value) {
         this.group = group;
         this.name = name;
         this.value = value;
@@ -42,7 +40,7 @@ public class Metadata {
         return name;
     }
 
-    public Map<String, Object> getValue() {
+    public Object getValue() {
         return value;
     }
 }

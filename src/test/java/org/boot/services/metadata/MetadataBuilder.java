@@ -10,7 +10,7 @@ public class MetadataBuilder {
     private ObjectId id;
     private String group = "uno";
     private String name;
-    private Map<String,Object> value = new HashMap<>();
+    private Object value = new HashMap<>();
 
     public MetadataBuilder group(String group){
         this.group = group;
@@ -23,7 +23,15 @@ public class MetadataBuilder {
     }
 
     public MetadataBuilder value(String key, Object value){
-        this.value.put(key,value);
+        if (this.value instanceof HashMap)
+            ((Map)this.value).put(key,value);
+        else
+            this.value = new HashMap<String,Object>(){{ put(key,value);}};
+        return this;
+    }
+
+    public MetadataBuilder value(Object value){
+        this.value = value;
         return this;
     }
 

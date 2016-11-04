@@ -28,7 +28,7 @@ public class MetadataGetControllerTest extends BaseControllerTest{
     public void shouldReturnRequestedConfigForAGroup() throws Exception {
         Metadata metadata = new MetadataBuilder().group("mygroup").name("myconfig").value("key1", "value1").value("key2", Arrays.asList("One","Two","Three")).build();
         metadata = repository.save(metadata);
-        repository.save(new MetadataBuilder().group("mygroup").name("myconfig2").value("key3", 100).build());
+        repository.save(new MetadataBuilder().group("mygroup").name("myconfig2").value(100).build());
 
         ResultActions result = mvc.perform(get("/metadata/mygroup/myconfig" ).accept(MediaType.APPLICATION_JSON));
 
@@ -47,7 +47,7 @@ public class MetadataGetControllerTest extends BaseControllerTest{
     public void shouldReturnConfigForId() throws Exception {
         Metadata metadata = new MetadataBuilder().group("mygroup").name("myconfig").value("key1", "value1").value("key2", Arrays.asList("One","Two","Three")).build();
         metadata = repository.save(metadata);
-        repository.save(new MetadataBuilder().group("mygroup").name("myconfig2").value("key3", 100).build());
+        repository.save(new MetadataBuilder().group("mygroup").name("myconfig2").value(100).build());
 
         ResultActions result = mvc.perform(get("/metadata/" + metadata.getId() ).accept(MediaType.APPLICATION_JSON));
 
@@ -87,7 +87,8 @@ public class MetadataGetControllerTest extends BaseControllerTest{
     @Test
     public void shouldReturnAllConfigsForAGroup() throws Exception {
         repository.save(new MetadataBuilder().group("mygroup").name("myconfig").value("key1", "value1").value("key2", Arrays.asList("One","Two","Three")).build());
-        repository.save(new MetadataBuilder().group("mygroup").name("myconfig2").value("key3", 100).build());
+        repository.save(new MetadataBuilder().group("mygroup").name("myconfig2").value(100).build());
+        repository.save(new MetadataBuilder().group("mygroup").name("myconfig3").value(Arrays.asList("first","second")).build());
 
         ResultActions result = mvc.perform(get("/metadata/groups/mygroup" ).accept(MediaType.APPLICATION_JSON));
 
@@ -99,8 +100,11 @@ public class MetadataGetControllerTest extends BaseControllerTest{
                 .andExpect(jsonPath("$[0].value.key2",equalTo(Arrays.asList("One","Two","Three"))))
                 .andExpect(jsonPath("$[1].group",equalTo("mygroup")))
                 .andExpect(jsonPath("$[1].name",equalTo("myconfig2")))
-                .andExpect(jsonPath("$[1].value.key3",equalTo(100)))
-                .andDo(restDoc("getAllMetadataForGroup"));;
+                .andExpect(jsonPath("$[1].value",equalTo(100)))
+                .andExpect(jsonPath("$[2].group",equalTo("mygroup")))
+                .andExpect(jsonPath("$[2].name",equalTo("myconfig3")))
+                .andExpect(jsonPath("$[2].value",equalTo(Arrays.asList("first","second"))))
+                .andDo(restDoc("getAllMetadataForGroup"));
 
     }
 
