@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotNull;
 
-@Document
+@Document(collection = "metadata")
 @CompoundIndexes({
         @CompoundIndex(name = "group_name", def = "{'group': 1, 'name': 1}")
 })

@@ -2,6 +2,7 @@ target/
 
 ### Application ###
 *.log
+commands.txt
 
 ### STS ###
 .apt_generated

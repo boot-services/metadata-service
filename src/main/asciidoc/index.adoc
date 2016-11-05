@@ -94,11 +94,19 @@ include::{snippets}/insertMetadata/http-response.adoc[]
 
 ==== Example response (Validation Errors)
 
+include::{snippets}/saveMetadataWithoutGroup/http-request.adoc[]
+
 include::{snippets}/saveMetadataWithoutGroup/http-response.adoc[]
+
+include::{snippets}/saveMetadataWithoutName/http-request.adoc[]
 
 include::{snippets}/saveMetadataWithoutName/http-response.adoc[]
 
+include::{snippets}/saveMetadataWithoutValue/http-request.adoc[]
+
 include::{snippets}/saveMetadataWithoutValue/http-response.adoc[]
+
+
 
 === Update Existing Metadata
 
