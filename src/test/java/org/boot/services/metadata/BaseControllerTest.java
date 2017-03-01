@@ -1,5 +1,7 @@
 package org.boot.services.metadata;
 
+import com.github.fakemongo.junit.FongoRule;
+import org.junit.Rule;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
@@ -20,6 +22,9 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 @AutoConfigureRestDocs(outputDir = "target/generated-snippets")
 @AutoConfigureMockMvc
 public abstract class BaseControllerTest {
+
+    @Rule
+    public FongoRule fongoRule = new FongoRule();
 
     @Autowired
     protected MockMvc mvc;
