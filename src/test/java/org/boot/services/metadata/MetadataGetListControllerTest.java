@@ -59,4 +59,24 @@ public class MetadataGetListControllerTest extends BaseControllerTest {
 
     }
 
+
+    @Test
+    public void shouldReturnAllMetadataForAGroupSortedByName() throws Exception {
+        repository.save(new MetadataBuilder().group("mygroup").name("myconfig1").value("key1", "value1").value("key2", Arrays.asList("One", "Two", "Three")).build());
+        repository.save(new MetadataBuilder().group("notmygroup").name("myconfig2").value(100).build());
+        repository.save(new MetadataBuilder().group("mygroup").name("myconfig3").value(Arrays.asList("first", "second")).build());
+
+        ResultActions result = mvc.perform(get("/metadata?group=mygroup&sortBy=name").accept(MediaType.APPLICATION_JSON));
+
+        result.andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].group", equalTo("mygroup")))
+                .andExpect(jsonPath("$[0].name", equalTo("myconfig3")))
+                .andExpect(jsonPath("$[1].group", equalTo("mygroup")))
+                .andExpect(jsonPath("$[1].name", equalTo("myconfig1")))
+                .andDo(restDoc("getAllMetadataForAGroupSortedByName"));
+
+    }
+
+
+
 }
