@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
 import static org.hamcrest.Matchers.hasSize;
@@ -27,6 +28,7 @@ public class MetadataGetControllerTest extends BaseControllerTest{
     @Test
     public void shouldReturnRequestedConfigForAGroup() throws Exception {
         Metadata metadata = new MetadataBuilder().group("mygroup").name("myconfig").value("key1", "value1").value("key2", Arrays.asList("One","Two","Three")).build();
+        String lastUpdatedTs = metadata.getLastUpdatedTs().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
         metadata = repository.save(metadata);
         repository.save(new MetadataBuilder().group("mygroup").name("myconfig2").value(100).build());
 
@@ -37,6 +39,7 @@ public class MetadataGetControllerTest extends BaseControllerTest{
                 .andExpect(jsonPath("$.id",equalTo(metadata.getId().toString())))
                 .andExpect(jsonPath("$.group",equalTo("mygroup")))
                 .andExpect(jsonPath("$.name",equalTo("myconfig")))
+                .andExpect(jsonPath("$.lastUpdatedTs",equalTo(lastUpdatedTs)))
                 .andExpect(jsonPath("$.value.key1",equalTo("value1")))
                 .andExpect(jsonPath("$.value.key2",equalTo(Arrays.asList("One","Two","Three"))))
                 .andDo(restDoc("getMetadataByGroup"));

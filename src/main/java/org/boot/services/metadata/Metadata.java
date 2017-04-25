@@ -7,6 +7,8 @@ import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 @Document(collection = "metadata")
 @CompoundIndexes({
@@ -14,17 +16,11 @@ import javax.validation.constraints.NotNull;
 })
 public class Metadata {
 
-    @Id
-    private ObjectId id;
-
-    @NotNull
-    private String group;
-
-    @NotNull
-    private String name;
-
-    @NotNull
-    private Object value;
+    @Id private ObjectId id;
+    @NotNull private String group;
+    @NotNull private String name;
+    @NotNull private Object value;
+    @NotNull private LocalDateTime lastUpdatedTs = LocalDateTime.now();
 
     public Metadata(String id, String group, String name, Object value) {
         if (id != null) this.id = new ObjectId(id);
@@ -50,5 +46,13 @@ public class Metadata {
 
     public Object getValue() {
         return value;
+    }
+
+    public LocalDateTime getLastUpdatedTs() {
+        return lastUpdatedTs;
+    }
+
+    public void setLastUpdatedTs() {
+        this.lastUpdatedTs = LocalDateTime.now();
     }
 }

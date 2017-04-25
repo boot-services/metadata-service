@@ -1,6 +1,13 @@
 package org.boot.services.metadata;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class MetadataView {
+
     private Metadata metadata;
 
     public MetadataView(Metadata metadata) {
@@ -22,5 +29,10 @@ public class MetadataView {
     public Object getValue() {
         return metadata.getValue();
     }
+
+    public String getLastUpdatedTs() {
+        return metadata.getLastUpdatedTs().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+    }
+
 
 }
