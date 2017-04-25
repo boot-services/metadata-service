@@ -1,6 +1,7 @@
 package org.boot.services.metadata;
 
 import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

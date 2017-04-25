@@ -42,13 +42,6 @@ public class MetadataGetController {
     }
 
 
-    @GetMapping("/metadata/groups/{group}")
-    public List<MetadataView> getAllMetadataForAGroup(@PathVariable String group, HttpServletResponse response) {
-        response.setHeader("Cache-Control", cacheControl().getHeaderValue());
-        return repository.findByGroup(group).map(MetadataView::new).collect(Collectors.toList());
-    }
-
-
     private CacheControl cacheControl() {
         return CacheControl.maxAge(maxAge, TimeUnit.MINUTES).cachePublic();
     }

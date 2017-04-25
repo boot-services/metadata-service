@@ -4,6 +4,7 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotNull;
@@ -17,10 +18,10 @@ import java.time.ZonedDateTime;
 public class Metadata {
 
     @Id private ObjectId id;
-    @NotNull private String group;
-    @NotNull private String name;
+    @NotNull @Indexed private String group;
+    @NotNull @Indexed private String name;
     @NotNull private Object value;
-    @NotNull private LocalDateTime lastUpdatedTs = LocalDateTime.now();
+    @Indexed private LocalDateTime lastUpdatedTs = LocalDateTime.now();
 
     public Metadata(String id, String group, String name, Object value) {
         if (id != null) this.id = new ObjectId(id);
