@@ -23,7 +23,7 @@ public class MetadataPostController {
         if (bindingResult.hasErrors()) {
             throw new ValidationException("Validation failed in saving metadata. Group, Name and Value are mandatory fields.");
         }
-
+        metadata.setLastUpdatedTs();
         Metadata savedMetadata = repository.save(metadata);
         return new HashMap<String,String>(){{
             put("id",savedMetadata.getId().toString());
