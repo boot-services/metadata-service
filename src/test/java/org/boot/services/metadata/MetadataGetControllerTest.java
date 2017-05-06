@@ -9,7 +9,6 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
-import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;

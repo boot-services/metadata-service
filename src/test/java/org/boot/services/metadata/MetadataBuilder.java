@@ -2,7 +2,6 @@ package org.boot.services.metadata;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.bson.types.ObjectId;
 
 import java.util.HashMap;
 import java.util.Map;
