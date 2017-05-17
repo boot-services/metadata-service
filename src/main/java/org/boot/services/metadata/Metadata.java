@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotNull;
+import java.time.Clock;
 import java.time.LocalDateTime;
 
 @Document(collection = "metadata")
@@ -52,7 +53,7 @@ public class Metadata {
         return lastUpdatedTs;
     }
 
-    public void setLastUpdatedTs() {
-        this.lastUpdatedTs = LocalDateTime.now();
+    public void setLastUpdatedTs(Clock clock) {
+        this.lastUpdatedTs = LocalDateTime.now(clock);
     }
 }

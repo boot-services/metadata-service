@@ -3,10 +3,20 @@ package org.boot.services.metadata;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.time.Clock;
 import java.util.HashMap;
 import java.util.Map;
 
 public class MetadataBuilder {
+
+    public MetadataBuilder() {
+        this(Clock.systemUTC());
+    }
+    public MetadataBuilder(Clock clock) {
+        this.clock = clock;
+    }
+
+    private Clock clock;
 
     private String id;
     private String group;
@@ -42,7 +52,9 @@ public class MetadataBuilder {
     }
 
     public Metadata build(){
-        return new Metadata(id, group, name, value);
+        Metadata metadata = new Metadata(id, group, name, value);
+        metadata.setLastUpdatedTs(clock);
+        return metadata;
     }
 
     public String buildAsJson() throws JsonProcessingException {

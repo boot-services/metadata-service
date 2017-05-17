@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 
+import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -78,6 +80,26 @@ public class MetadataGetListControllerTest extends BaseControllerTest {
 
     }
 
+
+    @Test
+    public void shouldReturnAllMetadataUpdatedBetwweenSpecificTime() throws Exception {
+        LocalDateTime time10AM = LocalDateTime.of(2017, 4, 28, 10, 0);
+        repository.save(new MetadataBuilder(clock(time10AM)).group("mygroup").name("myconfig1").value("key1", "value1").value("key2", Arrays.asList("One", "Two", "Three")).build());
+        repository.save(new MetadataBuilder(clock(time10AM.minusMinutes(10))).group("mygroup").name("myconfig2").value(100).build());
+        repository.save(new MetadataBuilder(clock(time10AM.plusMinutes(15))).group("mygroup").name("myconfig3").value(Arrays.asList("first", "second")).build());
+
+        String receivedSince10AM = time10AM.format(ISO_LOCAL_DATE_TIME);
+        String receivedUntil11AM = time10AM.plusHours(1).format(ISO_LOCAL_DATE_TIME);
+        ResultActions result = mvc.perform(get("/metadata?group=mygroup&sortBy=name&since=" + receivedSince10AM + "&until=" + receivedUntil11AM).accept(MediaType.APPLICATION_JSON));
+
+        result.andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].group", equalTo("mygroup")))
+                .andExpect(jsonPath("$[0].name", equalTo("myconfig3")))
+                .andExpect(jsonPath("$[1].group", equalTo("mygroup")))
+                .andExpect(jsonPath("$[1].name", equalTo("myconfig1")))
+                .andDo(restDoc("getAllMetadataForAGroupSortedByName"));
+
+    }
 
 
 }

@@ -101,4 +101,28 @@ public class MetadataPostControllerTest extends BaseControllerTest{
                 .andExpect(jsonPath("$.message",equalTo("Validation failed in saving metadata. Group, Name and Value are mandatory fields.")))
                 .andDo(restDoc("saveMetadataWithoutValue"));
     }
+
+
+    @Test
+    public void shouldPatchMetadataWithValue() throws Exception {
+        Metadata metadata = new MetadataBuilder().group("mygroup").name("myconfig").value("key1", "value1").value("key2", Arrays.asList("One", "Two", "Three")).build();
+        String id = repository.save(metadata).getId().toString();
+
+        String payload = "{ \"value\" : \"updated-test\" } ";
+        ResultActions result = mvc.perform(post("/metadata/" + id +  "/patch")
+                .content(payload).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
+
+        result.andExpect(status().isOk())
+                .andExpect(jsonPath("$.id",equalTo(id)))
+                .andExpect(jsonPath("$.message",equalTo("Successfully patched metadata.")));
+
+        result = mvc.perform(get("/metadata/" + id).accept(MediaType.APPLICATION_JSON));
+
+        result.andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", equalTo(id)))
+                .andExpect(jsonPath("$.value", equalTo("updated-test")))
+                .andDo(restDoc("patchMetadataValue"))
+        ;
+    }
+
 }
