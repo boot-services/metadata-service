@@ -72,6 +72,7 @@ public class MetadataGetListControllerTest extends BaseControllerTest {
         ResultActions result = mvc.perform(get("/metadata?group=mygroup&sortBy=name").accept(MediaType.APPLICATION_JSON));
 
         result.andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[0].group", equalTo("mygroup")))
                 .andExpect(jsonPath("$[0].name", equalTo("myconfig3")))
                 .andExpect(jsonPath("$[1].group", equalTo("mygroup")))
@@ -93,6 +94,7 @@ public class MetadataGetListControllerTest extends BaseControllerTest {
         ResultActions result = mvc.perform(get("/metadata?group=mygroup&sortBy=name&since=" + receivedSince10AM + "&until=" + receivedUntil11AM).accept(MediaType.APPLICATION_JSON));
 
         result.andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[0].group", equalTo("mygroup")))
                 .andExpect(jsonPath("$[0].name", equalTo("myconfig3")))
                 .andExpect(jsonPath("$[1].group", equalTo("mygroup")))
@@ -101,5 +103,26 @@ public class MetadataGetListControllerTest extends BaseControllerTest {
 
     }
 
+
+    @Test
+    public void shouldReturnAllMetadataMatchingTags() throws Exception {
+        repository.save(new MetadataBuilder().group("mygroup").name("myconfig1")
+                .value("key1", "value1").value("key2", Arrays.asList("One", "Two", "Three")).tags("tag1","tag2").build());
+        repository.save(new MetadataBuilder().group("notmygroup").name("myconfig2")
+                .value(100).tags("tag3","tag4").build());
+        repository.save(new MetadataBuilder().group("mygroup").name("myconfig3")
+                .value(Arrays.asList("first", "second")).tags("tag1","tag4").build());
+
+        ResultActions result = mvc.perform(get("/metadata?tags=tag1&tags=tag2").accept(MediaType.APPLICATION_JSON));
+
+        result.andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0].group", equalTo("mygroup")))
+                .andExpect(jsonPath("$[0].name", equalTo("myconfig3")))
+                .andExpect(jsonPath("$[1].group", equalTo("mygroup")))
+                .andExpect(jsonPath("$[1].name", equalTo("myconfig1")))
+                .andDo(restDoc("getAllMetadataForMatchingTags"));
+
+    }
 
 }

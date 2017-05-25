@@ -31,6 +31,8 @@ public class MetadataGetListController {
     public List<MetadataView> getMetadata(
             @RequestParam(required = false) String group,
 
+            @RequestParam(required = false) List<String> tags,
+
             @Valid @Pattern(regexp = ISO_DATE_TIME_REGEX)
                 @RequestParam(required = false) String since,
             @Valid @Pattern(regexp = ISO_DATE_TIME_REGEX)
@@ -44,6 +46,7 @@ public class MetadataGetListController {
 
         QueryCriteria config = new QueryCriteria()
                 .addFilter("group", group)
+                .addFilter("tags", tags)
                 .between("lastUpdatedTs", since,until)
                 .projection("id","group","name")
                 .sort(sortBy, sortOrder)
