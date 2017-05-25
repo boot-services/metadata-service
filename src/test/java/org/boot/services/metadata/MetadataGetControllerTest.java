@@ -26,7 +26,8 @@ public class MetadataGetControllerTest extends BaseControllerTest{
 
     @Test
     public void shouldReturnRequestedConfigForAGroup() throws Exception {
-        Metadata metadata = new MetadataBuilder().group("mygroup").name("myconfig").value("key1", "value1").value("key2", Arrays.asList("One","Two","Three")).build();
+        Metadata metadata = new MetadataBuilder().group("mygroup").name("myconfig")
+                .value("key1", "value1").value("key2", Arrays.asList("One","Two","Three")).tags("tag1").build();
         String lastUpdatedTs = metadata.getLastUpdatedTs().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
         metadata = repository.save(metadata);
         repository.save(new MetadataBuilder().group("mygroup").name("myconfig2").value(100).build());
@@ -37,6 +38,7 @@ public class MetadataGetControllerTest extends BaseControllerTest{
                 .andExpect(header().string("Cache-Control","max-age=3600, public"))
                 .andExpect(jsonPath("$.id",equalTo(metadata.getId().toString())))
                 .andExpect(jsonPath("$.group",equalTo("mygroup")))
+                .andExpect(jsonPath("$.tags[0]",equalTo("tag1")))
                 .andExpect(jsonPath("$.name",equalTo("myconfig")))
                 .andExpect(jsonPath("$.lastUpdatedTs",equalTo(lastUpdatedTs)))
                 .andExpect(jsonPath("$.value.key1",equalTo("value1")))
@@ -47,7 +49,8 @@ public class MetadataGetControllerTest extends BaseControllerTest{
 
     @Test
     public void shouldReturnConfigForId() throws Exception {
-        Metadata metadata = new MetadataBuilder().group("mygroup").name("myconfig").value("key1", "value1").value("key2", Arrays.asList("One","Two","Three")).build();
+        Metadata metadata = new MetadataBuilder().group("mygroup").name("myconfig")
+                .value("key1", "value1").value("key2", Arrays.asList("One","Two","Three")).build();
         metadata = repository.save(metadata);
         repository.save(new MetadataBuilder().group("mygroup").name("myconfig2").value(100).build());
 
@@ -57,6 +60,7 @@ public class MetadataGetControllerTest extends BaseControllerTest{
                 .andExpect(header().string("Cache-Control","max-age=3600, public"))
                 .andExpect(jsonPath("$.id",equalTo(metadata.getId().toString())))
                 .andExpect(jsonPath("$.group",equalTo("mygroup")))
+                .andExpect(jsonPath("$.tags").doesNotExist())
                 .andExpect(jsonPath("$.name",equalTo("myconfig")))
                 .andExpect(jsonPath("$.value.key1",equalTo("value1")))
                 .andExpect(jsonPath("$.value.key2",equalTo(Arrays.asList("One","Two","Three"))))

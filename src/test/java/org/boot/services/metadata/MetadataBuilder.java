@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.time.Clock;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,6 +23,7 @@ public class MetadataBuilder {
     private String group;
     private String name;
     private Object value;
+    private String[] tags = {};
 
     public MetadataBuilder id(String id) {
         this.id = id;
@@ -46,13 +48,18 @@ public class MetadataBuilder {
         return this;
     }
 
+    public MetadataBuilder tags(String... tags){
+        this.tags = tags;
+        return this;
+    }
+
     public MetadataBuilder value(Object value){
         this.value = value;
         return this;
     }
 
     public Metadata build(){
-        Metadata metadata = new Metadata(id, group, name, value);
+        Metadata metadata = new Metadata(id, group, name, value, Arrays.asList(tags));
         metadata.setLastUpdatedTs(clock);
         return metadata;
     }
@@ -64,6 +71,7 @@ public class MetadataBuilder {
             if (group != null) put("group",group);
             if (name != null) put("name",name);
             if (value != null) put("value",value);
+            if (tags != null || tags.length > 0) put("tags",tags);
         }};
         return mapper.writeValueAsString(obj);
     }

@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import javax.validation.constraints.NotNull;
 import java.time.Clock;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Document(collection = "metadata")
 @CompoundIndexes({
@@ -22,12 +23,14 @@ public class Metadata {
     @NotNull @Indexed private String name;
     @NotNull private Object value;
     @Indexed private LocalDateTime lastUpdatedTs = LocalDateTime.now();
+    @Indexed private List<String> tags;
 
-    public Metadata(String id, String group, String name, Object value) {
+    public Metadata(String id, String group, String name, Object value, List<String> tags) {
         if (id != null) this.id = new ObjectId(id);
         this.group = group;
         this.name = name;
         this.value = value;
+        this.tags = tags;
     }
 
     public Metadata() {
@@ -47,6 +50,10 @@ public class Metadata {
 
     public Object getValue() {
         return value;
+    }
+
+    public List<String> getTags() {
+        return tags;
     }
 
     public LocalDateTime getLastUpdatedTs() {

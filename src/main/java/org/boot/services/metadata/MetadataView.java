@@ -3,6 +3,7 @@ package org.boot.services.metadata;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class MetadataView {
@@ -27,6 +28,10 @@ public class MetadataView {
 
     public Object getValue() {
         return metadata.getValue();
+    }
+
+    public List<String> getTags() {
+        return metadata.getTags();
     }
 
     public LocalDateTime getLastUpdatedTs() {
