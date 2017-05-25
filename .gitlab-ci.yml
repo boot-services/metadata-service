@@ -3,4 +3,4 @@ image: maven:3.5.0-jdk-8-alpine
 test:
   script:
     - mvn clean test
-    -"cat target/site/jacoco/index.html"
+    - cat target/site/jacoco/index.html
