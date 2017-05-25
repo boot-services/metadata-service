@@ -1,0 +1,14 @@
+${AnsiColor.BRIGHT_YELLOW}
+___       ___
+`MMb     dMM'68b                                                                68b
+ MMM.   ,PMM Y89                                                                Y89
+ M`Mb   d'MM ___   ____  ___  __   _____     ____     ____  ___  __ ____    ___ ___   ____     ____     ____
+ M YM. ,P MM `MM  6MMMMb.`MM 6MM  6MMMMMb   6MMMMb\  6MMMMb `MM 6MM `MM(    )M' `MM  6MMMMb.  6MMMMb   6MMMMb\
+ M `Mb d' MM  MM 6M'   Mb MM69 " 6M'   `Mb MM'    ` 6M'  `Mb MM69 "  `Mb    d'   MM 6M'   Mb 6M'  `Mb MM'    `
+ M  YM.P  MM  MM MM    `' MM'    MM     MM YM.      MM    MM MM'      YM.  ,P    MM MM    `' MM    MM YM.
+ M  `Mb'  MM  MM MM       MM     MM     MM  YMMMMb  MMMMMMMM MM        MM  M     MM MM       MMMMMMMM  YMMMMb
+ M   YP   MM  MM MM       MM     MM     MM      `Mb MM       MM        `Mbd'     MM MM       MM            `Mb
+ M   `'   MM  MM YM.   d9 MM     YM.   ,M9 L    ,MM YM    d9 MM         YMP      MM YM.   d9 YM    d9 L    ,MM
+_M_      _MM__MM_ YMMMM9 _MM_     YMMMMM9  MYMMMM9   YMMMM9 _MM_         M      _MM_ YMMMM9   YMMMM9  MYMMMM9
+
+${AnsiColor.RED} :: Spring Boot${spring-boot.formatted-version} :: ${AnsiColor.DEFAULT}
