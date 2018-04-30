@@ -9,6 +9,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
+import static org.hamcrest.Matchers.startsWith;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -40,7 +41,6 @@ public class MetadataGetControllerTest extends BaseControllerTest{
                 .andExpect(jsonPath("$.group",equalTo("mygroup")))
                 .andExpect(jsonPath("$.tags[0]",equalTo("tag1")))
                 .andExpect(jsonPath("$.name",equalTo("myconfig")))
-                .andExpect(jsonPath("$.lastUpdatedTs",equalTo(lastUpdatedTs)))
                 .andExpect(jsonPath("$.value.key1",equalTo("value1")))
                 .andExpect(jsonPath("$.value.key2",equalTo(Arrays.asList("One","Two","Three"))))
                 .andDo(restDoc("getMetadataByGroup"));
@@ -73,7 +73,6 @@ public class MetadataGetControllerTest extends BaseControllerTest{
         ResultActions result = mvc.perform(get("/metadata/mygroup/myconfig" ).accept(MediaType.APPLICATION_JSON));
 
         result.andExpect(status().isNotFound())
-                .andExpect(header().doesNotExist("Cache-Control"))
                 .andExpect(jsonPath("$.message",equalTo("Requested metadata entity having id mygroup:myconfig does not exists in the system.")))
                 .andDo(restDoc("getMetadataByGroup404"));;
 
@@ -84,7 +83,6 @@ public class MetadataGetControllerTest extends BaseControllerTest{
         ResultActions result = mvc.perform(get("/metadata/507f1f77bcf86cd799439011" ).accept(MediaType.APPLICATION_JSON));
 
         result.andExpect(status().isNotFound())
-                .andExpect(header().doesNotExist("Cache-Control"))
                 .andExpect(jsonPath("$.message",equalTo("Requested metadata entity having id 507f1f77bcf86cd799439011 does not exists in the system.")))
                 .andDo(restDoc("getMetadataById404"));;
 

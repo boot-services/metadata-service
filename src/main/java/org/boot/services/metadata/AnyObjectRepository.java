@@ -1,6 +1,7 @@
 package org.boot.services.metadata;
 
 import com.mongodb.WriteResult;
+import com.mongodb.client.result.UpdateResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -22,8 +23,8 @@ public class AnyObjectRepository {
 
     public <T> boolean upsert(String id, Update update, Class<T> klass) {
         Query idQuery = new Query().addCriteria(Criteria.where("id").is(id));
-        WriteResult result = template.upsert(idQuery, update, klass);
-        return result.getN() == 1;
+        UpdateResult result = template.upsert(idQuery, update, klass);
+        return result.getModifiedCount() == 1;
     }
 
 }
