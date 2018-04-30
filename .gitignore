@@ -1,8 +1,10 @@
 target/
+Dockerfile
 
 ### Application ###
 *.log
 commands.txt
+data
 
 ### STS ###
 .apt_generated
