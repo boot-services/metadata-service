@@ -6,6 +6,9 @@ Dockerfile
 commands.txt
 data
 
+### Code ###
+.vscode
+
 ### STS ###
 .apt_generated
 .classpath
