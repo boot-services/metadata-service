@@ -5,6 +5,7 @@ Dockerfile
 *.log
 commands.txt
 data
+Makefile
 
 ### Code ###
 .vscode
