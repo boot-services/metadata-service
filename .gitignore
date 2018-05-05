@@ -3,6 +3,7 @@ Dockerfile
 
 ### Application ###
 *.log
+*.log.*
 commands.txt
 data
 Makefile
