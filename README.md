@@ -1,22 +1,20 @@
 # Metadata Service 
 
-## Reusable MicroServices Build using Spring Boot
+1) POST to create an entry in the database
+curl --header "Content-Type: application/json" \
+  --request POST \
+  --data '{"group":"sunitparekh","name":"city","value":"Pune"}' \
+  http://localhost:8080/metadata
 
-Metadata service is similar to config service. It hold the metadata/config required across different services which needs to be stored in database and not in application properties along with code.
-
-Metadata API Documentation generated using Spring Boot RestDoc is available at,
-
-[https://powerful-lake-41747.herokuapp.com/docs/index.html](https://powerful-lake-41747.herokuapp.com/docs/index.html)
-
-Demo API is also available at,
-
-[https://powerful-lake-41747.herokuapp.com/metadata/groups/mygroup](https://powerful-lake-41747.herokuapp.com/metadata/groups/mygroup)
-
-
-## Fork or [Download](https://github.com/boot-services/metadata-service/archive/master.zip) to use it
-
-* Add or Update property files as needed, change your `jasypt.encryptor.password` and corresponding encrypted properties  
-* Add relevant security setup as needed, basic authentication setup is done in `application-qa.properties` property file 
+2) GET an entry posted in step 1
+curl http://localhost:8080/metadata/<id-received-in-post-response>
 
 
 
+# files to chanage for connecting to actual mongodb instance
+1) src/main/java/org/boot/services/metadata/InMemoryMongoDB.java
+comment @Configuration on line # 8
+
+2) src/main/resources/application.properties
+comment out line 24 
+uncomment line 25 (remember the name of the mongodb server or change it as you like)
