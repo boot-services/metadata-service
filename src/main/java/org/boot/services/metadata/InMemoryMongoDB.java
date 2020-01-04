@@ -5,7 +5,7 @@ import com.mongodb.MongoClient;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 
-@Configuration
+//@Configuration
 public class InMemoryMongoDB extends AbstractMongoConfiguration {
 
     @Override

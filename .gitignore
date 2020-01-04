@@ -1,5 +1,4 @@
 target/
-Dockerfile
 
 ### Application ###
 *.log

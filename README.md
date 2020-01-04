@@ -7,11 +7,11 @@ curl --header "Content-Type: application/json" \
   http://localhost:8080/metadata
 
 2) GET an entry posted in step 1
-curl http://localhost:8080/metadata/<id-received-in-post-response>
+curl http://localhost:8080/metadata/{id-received-in-post-response}
 
 
 
-# files to chanage for connecting to actual mongodb instance
+# files chanaged for connecting to actual mongodb instance
 1) src/main/java/org/boot/services/metadata/InMemoryMongoDB.java
 comment @Configuration on line # 8
 

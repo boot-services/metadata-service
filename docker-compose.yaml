@@ -1,0 +1,16 @@
+version: "3"
+services:
+  app:
+    container_name: metadata
+    image: "sunitparekh/metadata:4.0"
+    environment:
+      - MONGODB_URI=mongodb://mymongo/metadata
+    ports:
+      - "8080:8080"
+    links:
+      - mymongo
+  mymongo:
+    container_name: mongodb
+    image: mongo
+    ports:
+      - "27017:27017"
