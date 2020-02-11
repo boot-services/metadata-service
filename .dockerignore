@@ -3,3 +3,5 @@
 
 # Allow files and directories
 !/target/metadata-service.jar
+!/src
+!pom.xml
