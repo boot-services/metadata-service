@@ -1,3 +1,4 @@
+# ===========   BUILD STAGE =====================
 FROM maven AS build
 WORKDIR /usr/metadata
 
@@ -10,6 +11,7 @@ COPY src /usr/metadata/src
 RUN mvn package -DskipTests
 
 
+# ===========  RUN STAGE =====================
 FROM openjdk:alpine
 COPY --from=build /usr/metadata/target/metadata-service.jar metadata-service.jar
 EXPOSE 8080
