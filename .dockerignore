@@ -2,6 +2,6 @@
 **
 
 # Allow files and directories
-!/target/metadata-service.jar
+!/target/dependency
 !/src
 !pom.xml
