@@ -19,7 +19,7 @@ curl --header "Content-Type: application/json" \
 
 2) GET all entres posted in step 1
 
-`curl http://localhost:8080/metadata
+`curl http://localhost:8080/metadata`
 
 
 # files to chanage for connecting to actual mongodb instance
