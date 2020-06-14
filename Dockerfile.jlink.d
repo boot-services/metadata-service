@@ -1,4 +1,4 @@
-FROM alpine:3.11.6 as build
+FROM alpine:3.12.0 as build
 RUN apk --no-cache add openjdk11
 RUN /usr/lib/jvm/default-jvm/bin/jlink \
     --compress=2 \
@@ -8,7 +8,7 @@ RUN /usr/lib/jvm/default-jvm/bin/jlink \
 
 
 
-FROM alpine:3.11.6
+FROM alpine:3.12.0
 COPY --from=build /jdk-minimal /opt/jdk/
 
 COPY target/dependency/BOOT-INF/lib /app/lib
