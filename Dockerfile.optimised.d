@@ -1,4 +1,4 @@
-FROM openjdk:alpine
+FROM arm64v8/openjdk:alpine
 
 
 COPY target/dependency/BOOT-INF/lib /app/lib
